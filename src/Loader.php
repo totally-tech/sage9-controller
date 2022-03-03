@@ -77,8 +77,12 @@ class Loader
      */
     protected function setInstance()
     {
-        $class = get_declared_classes();
-        $class = '\\' . end($class);
+        $classes = get_declared_classes();
+        $class = array_pop($classes);
+        if (strpos($class, "Sober") === 0) {
+            $class = array_pop($classes);
+        }
+        $class = '\\' . $class;
         $template = pathinfo($this->instance, PATHINFO_FILENAME);
         // Convert camel case to match template
         $template = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $template));
